@@ -206,26 +206,41 @@ final class VideoPlayerController: UIViewController {
 
     var videoId: String = ""
     
+    var button: UIButton = {
+        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 50, height: 50))
+        button.layer.cornerRadius = 25.0
+        button.backgroundColor = .gray
+        button.setTitle("x", for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc func buttonAction(sender: UIButton!) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Create a new player
+        
+        
+        
+        //for that sweet sweet audio
         NotificationCenter.default.addObserver(self, selector: #selector(someSelector), name: NSNotification.Name("play"), object: nil)
         player = YTSwiftyPlayer(
             frame: CGRect(x: 0, y: 0, width: 640, height: 480),
             playerVars: [.videoID(videoId)])
         
-        // Enable auto playback when video is loaded
         player.autoplay = true
         
-        // Set player view.
         view = player
         
-        // Set delegate for detect callback information from the player.
         player.delegate = self
         
-        // Load the video.
+        // gotta close
+        view.addSubview(button)
 
+        // load the video
         player.loadPlayer()
         
     
